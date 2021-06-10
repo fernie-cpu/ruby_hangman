@@ -7,18 +7,52 @@ class Game
     words_list[random_number]
   end
 
-  def select_word
+  def word_selection
     loop do
       @word = random_word
-      break if @word.length >= 5 && @word.length <= 12
+      break if @word.length >= 7 && @word.length <= 14
     end
     puts @word
+    word_array = @word.split(//)
+    @solution = word_array[0..word_array.length - 3]
+    print @solution
+    puts ''
+  end
+
+  def display_blanks(letter = nil)
+    @solution.each do |item|
+      print '_' if item != letter
+      print letter if item == letter
+    end
+    puts ''
+  end
+
+  def player_turn
+    @available_letters = ('a'..'z').to_a
+    player_guess
+    display_blanks(@player_guess)
+    @available_letters.reject! { |letter| letter == @player_guess }
+
+    print @available_letters
+    puts ''
+  end
+
+  def player_guess
+    puts 'Guess a letter'
+    loop do
+      @player_guess = gets.chomp
+      break if @player_guess.length == 1 && @available_letters.include?(@player_guess.downcase)
+
+      puts 'You guess should only be 1 letter that has not been guessed'
+    end
   end
 
   def play
     introduction
     puts ""
     puts "Random word is:"
-    select_word
+    word_selection
+    display_blanks
+    player_turn
   end
 end
