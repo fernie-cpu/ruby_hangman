@@ -8,12 +8,17 @@ class Game
   end
 
   def select_word
-    word = random_word
-    puts word if word.length >= 5 && word.length <= 12
+    loop do
+      @word = random_word
+      break if @word.length >= 5 && @word.length <= 12
+    end
+    puts @word
   end
 
   def play
     introduction
+    puts ""
+    puts "Random word is:"
     select_word
   end
 end
